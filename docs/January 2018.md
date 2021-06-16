@@ -2,7 +2,7 @@
 
 ## Variations of COUGAR
 
-|                     Measurement                    	|           Folder Name           	|
+|                     **Measurement**                  |           **Folder Name**    	  |
 |:--------------------------------------------------:	|:-------------------------------:	|
 |          Spider Over COUGAR   Plate (No Dome)      	|               Plate             	|
 |       Spider 1/8” Over   COUGAR Plate (No Dome)    	|          Plate .125 Inch        	|
@@ -13,7 +13,7 @@
 
 ## SPIKE and SBUDAS
 
-|                     Measurement                    	|     Folder Name    	|
+|                     **Measurement**                  |           **Folder Name**    	  |
 |:--------------------------------------------------:	|:------------------:	|
 |          Half Ball on Ground   (On its side)       	| Half Ball No Plate 	|
 |  Half Ball on   Plywood Plate (On its side, SPIKE) 	|  Half Ball Plywood 	|
@@ -21,7 +21,7 @@
 
 ## Extreme Environment
 
-|     Measurement     	| Folder Name 	|
+|   **Measurement**     |**Folder Name**|
 |:-------------------:	|:-----------:	|
 | Saturated in Water* 	|  Saturated  	|
 |      Wrung Out*     	|  Wrung Out  	|
