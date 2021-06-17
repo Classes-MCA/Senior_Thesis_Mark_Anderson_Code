@@ -13,7 +13,7 @@
 %             degrees with 90 degrees being immediately above the
 %             microphone and 5 degrees being near the ground
 
-function loadArcData(path,session,configuration,angles,varargin)
+function arc = loadArcData(path,session,configuration,angles,varargin)
 
     p = inputParser;
     p.addRequired('path');
@@ -21,33 +21,53 @@ function loadArcData(path,session,configuration,angles,varargin)
     p.addRequired('configuration');
     p.addRequired('angles');
     p.addParameter('Baseline',false);
+    p.addParameter('CalculateSpectra',false)
     
     p.parse(path,session,configuration,angles,varargin{:});
     
     useBaseline = p.Results.Baseline;
+    CalculateSpectra = p.Results.CalculateSpectra;
 
     % There are different nuances in the data, so we will take care of that
     % here
     
-    [path,angles,channel] = getInfo(session)
+    [path,IDnums,channel] = getInfo(path,session,configuration,angles,useBaseline);
+    
+    arc = MicArray;
+    arc.initializeArray(length(IDnums));
+    fs = 51.2e3;
+    
+    for i = 1:length(IDnums)
+        
+        arc.Microphones(i).Waveform = binfileload(path,'ID',IDnums(i),channel);
+        arc.Microphones(i).Name = strcat(num2str(angles(i))," Degrees");
+        arc.Microphones(i).SamplingFrequency = fs;
+        
+    end
+    
+    if CalculateSpectra
+           
+        arc.generateSpectra('BlockSize',fs/2,'FrequencyRange',[50,20e3]);
+            
+    end
 
 end
 
-function [path,angles,channel] = getInfo(session)
+function [path,IDnums,channel] = getInfo(path,session,configuration,IDnums,useBaseline)
 
     if strcmp(session, 'January 2019')
         
         path = strcat(path,'/Arc Measurements January 2019/Data/',configuration);
 
-        angles = angles./5 + 1;
+        IDnums = IDnums./5 + 1;
         
         channel = -1; % FIXME: Find this
         
     elseif strcmp(session, 'Spring 2019')
         
-        path = strcat(path,'/Arc Measurements Spring 2019/Data/',configuration,'Raw Data/');
+        path = strcat(path,'/Arc Measurements Spring 2019/Data/',configuration,'/Raw Data');
         
-        angles = angles./5;
+        IDnums = IDnums./5;
         
         if useBaseline
             channel = 1;
@@ -59,7 +79,7 @@ function [path,angles,channel] = getInfo(session)
         
         path = strcat(path,'/Arc Measurements Fall 2019/Data/',configuration);
         
-        angles = angles./5 + 1;
+        IDnums = IDnums./5 + 1;
         
         if useBaseline
             channel = 0;
@@ -69,9 +89,9 @@ function [path,angles,channel] = getInfo(session)
 
     elseif strcmp(session, 'Summer 2020')
         
-        path = strcat(path,'/Arc Measurements Fall 2019/Data/',configuration);
+        path = strcat(path,'/Arc Measurements Summer 2020/Data/',configuration);
         
-        angles = angles./5 + 1;
+        IDnums = IDnums./5 + 1;
         
         if useBaseline
             channel = 0;
