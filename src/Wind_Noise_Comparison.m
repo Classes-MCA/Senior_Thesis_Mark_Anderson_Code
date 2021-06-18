@@ -69,3 +69,6 @@ grid('on')
 legend('Autoupdate','off')  % Making the legend ignore the reference line
 l = line(xlimits,[0,0],'Color','black','Linestyle','--','Linewidth',4);
 uistack(l,'bottom') % Putting the reference line underneath the data
+
+ax = gca;
+ax.Children(1).Color = [114 207 225]./256;

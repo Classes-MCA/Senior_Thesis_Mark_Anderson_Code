@@ -25,5 +25,8 @@ function comparison = compareTwoConfigurations(path,session_baseline,configurati
         comparison.Microphones(i).OTOSpectrum = subtraction;
         
     end
+    
+    % Putting the angles in reverse order so they plot properly
+    comparison.Microphones(:) = flip(comparison.Microphones);
 
 end
