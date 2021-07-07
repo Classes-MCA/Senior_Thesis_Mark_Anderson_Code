@@ -1,13 +1,13 @@
-pathToData = '/Volumes/Mark Drive/Acoustics Research/Acoustics/Arc Measurements/Static Fire Tests/GEM-63 October 2019/45/Data';
+pathToData = '/Volumes/Mark Drive/Acoustics Research/Acoustics/Arc Measurements/Static Fire Tests/CASTOR 300 February 2020/77.5/77.5';
 
 plotStyle('StandardStyle','SonicBoom')
 
-ch_COUGAR   = 0;
-ch_COUGARxt = 1;
+ch_COUGAR   = 2;
+ch_COUGARxt = 3;
 
-IDnum = 100;
+IDnum = 2;
 
-startTime = 65; % seconds
+startTime = 75; % seconds
 runTime   = 20; % seconds
 
 % Plot options
@@ -68,7 +68,7 @@ xlabel('Frequency (Hz)')
 ylabel('SPL (dB)')
 legend('COUGAR','COUGARxt')
 grid on
-title('GEM-63 Microphone Comparison Fall 2019')
+title('CASTOR 300 Microphone Comparison February 2020')
 xlim(xlimits)
 hold off
 
@@ -82,7 +82,7 @@ ylabel('SPL (dB)')
 legend('COUGAR','COUGARxt')
 xlim(xlimits)
 grid on
-title('GEM-63 Microphone Comparison Fall 2019')
+title('CASTOR 300 Microphone Comparison February 2020')
 hold off
 
 fig = figure();
@@ -101,6 +101,9 @@ xlim(xlimits)
 legend('Autoupdate','off')  % Making the legend ignore the reference line
 l = line(xlimits,[0,0],'Color','black','Linestyle','--','Linewidth',4);
 uistack(l,'bottom') % Putting the reference line underneath the data
+
+h = gcf;
+h.Position(3) = 5
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Saving the plots
