@@ -4,9 +4,9 @@ clear; close all;
 plotStyle('StandardStyle','SonicBoom')
 set(0, 'DefaultFigureRenderer', 'painters');
 
-path = '/Volumes/Mark Drive/Acoustics Research/Acoustics/Arc Measurements';
+path = 'C:\Users\mander14\Box\Mark Anderson Senior Thesis Data';
 angles = [5,20,45,70,90];
-savePath = '/Users/markanderson/Desktop/Mark_Anderson_Senior_Thesis_Document/Figures';
+savePath = '/Users/markanderson/Desktop/savePlots Output';
 FileTypes = ["png"];
 
 %% Comparing COUGAR without a windscreen to the baseline

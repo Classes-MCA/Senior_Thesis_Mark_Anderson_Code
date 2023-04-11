@@ -57,7 +57,7 @@ function [path,IDnums,channel] = getInfo(path,session,configuration,IDnums,useBa
 
     if strcmp(session, 'January 2019')
         
-        path = strcat(path,'/Arc Measurements January 2019/Data/',configuration);
+        path = strcat(path,'\Arc Measurements January 2019\Data\',configuration);
 
         IDnums = IDnums./5 + 1;
         
@@ -65,7 +65,7 @@ function [path,IDnums,channel] = getInfo(path,session,configuration,IDnums,useBa
         
     elseif strcmp(session, 'Spring 2019')
         
-        path = strcat(path,'/Arc Measurements Spring 2019/Data/',configuration,'/Raw Data');
+        path = strcat(path,'\Arc Measurements Spring 2019\Data\',configuration,'\Raw Data');
         
         IDnums = IDnums./5;
         
@@ -77,7 +77,7 @@ function [path,IDnums,channel] = getInfo(path,session,configuration,IDnums,useBa
         
     elseif strcmp(session, 'Fall 2019')
         
-        path = strcat(path,'/Arc Measurements Fall 2019/Data/',configuration);
+        path = strcat(path,'\Arc Measurements Fall 2019\Data\',configuration);
         
         IDnums = IDnums./5 + 1;
         
@@ -89,7 +89,7 @@ function [path,IDnums,channel] = getInfo(path,session,configuration,IDnums,useBa
 
     elseif strcmp(session, 'Summer 2020')
         
-        path = strcat(path,'/Arc Measurements Summer 2020/Data/',configuration);
+        path = strcat(path,'\Arc Measurements Summer 2020\Data\',configuration);
         
         IDnums = IDnums./5 + 1;
         
