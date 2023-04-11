@@ -13,7 +13,7 @@
 %             degrees with 90 degrees being immediately above the
 %             microphone and 5 degrees being near the ground
 
-function arc = loadArcData(path,session,configuration,angles,varargin)
+function [arc_waveforms, arc_spectra] = loadArcData(path,session,configuration,angles,varargin)
 
     p = inputParser;
     p.addRequired('path');
@@ -33,21 +33,39 @@ function arc = loadArcData(path,session,configuration,angles,varargin)
     
     [path,IDnums,channel] = getInfo(path,session,configuration,angles,useBaseline);
     
-    arc = MicArray;
-    arc.initializeArray(length(IDnums));
+    arc_waveforms = MicArray;
+    %arc_waveforms.initializeArray(length(IDnums));
     fs = 51.2e3;
     
     for i = 1:length(IDnums)
-        
-        arc.Microphones(i).Waveform = binfileload(path,'ID',IDnums(i),channel);
-        arc.Microphones(i).Name = strcat(num2str(angles(i))," Degrees");
-        arc.Microphones(i).SamplingFrequency = fs;
+
+        waveform = binfileload(path,'ID',IDnums(i),channel);
+
+        arc_waveforms.Microphones(i).Signal = Signal(waveform,fs);
+        arc_waveforms.Microphones(i).Signal.Name = strcat(num2str(angles(i))," Degrees");
+        arc_waveforms.Microphones(i).Name = arc_waveforms.Microphones(i).Signal.Name;
         
     end
     
     if CalculateSpectra
            
-        arc.generateSpectra('BlockSize',fs/2,'FrequencyRange',[50,20e3]);
+        %arc_waveforms.generateSpectra('BlockSize',fs/2,'FrequencyRange',[50,20e3]);
+
+        for i = 1:length(arc_waveforms.Microphones)
+
+            [Pxx,f] = getPxx(arc_waveforms.Microphones(i).Signal.Waveform,arc_waveforms.Microphones(i).Signal.SampleRate, ...
+                            'BlockSize',arc_waveforms.Microphones(i).Signal.SampleRate/2);
+
+            [spec,fc] = fractionalOctave(f,Pxx,[50,20e3],3);
+
+            spec = pressure2dB(spec,'IsSquared',true);
+
+            spec = Spectrum(fc,spec);
+            spec.Name = arc_waveforms.Microphones(i).Name;
+
+            arc_spectra(i) = spec;
+
+        end
             
     end
 
