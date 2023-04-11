@@ -22,11 +22,13 @@ function [arc_waveforms, arc_spectra] = loadArcData(path,session,configuration,a
     p.addRequired('angles');
     p.addParameter('Baseline',false);
     p.addParameter('CalculateSpectra',false)
+    p.addParameter('TrimmedTime',Inf)
     
     p.parse(path,session,configuration,angles,varargin{:});
     
     useBaseline = p.Results.Baseline;
     CalculateSpectra = p.Results.CalculateSpectra;
+    TrimmedTime = p.Results.TrimmedTime;
 
     % There are different nuances in the data, so we will take care of that
     % here
@@ -39,7 +41,7 @@ function [arc_waveforms, arc_spectra] = loadArcData(path,session,configuration,a
     
     for i = 1:length(IDnums)
 
-        waveform = binfileload(path,'ID',IDnums(i),channel,'CHname',CHname);
+        waveform = binfileload(path,'ID',IDnums(i),channel,'CHname',CHname,'NRead',TrimmedTime*fs);
 
         arc_waveforms.Microphones(i).Signal = Signal(waveform,fs);
         arc_waveforms.Microphones(i).Signal.Name = strcat(num2str(angles(i))," Degrees");
@@ -113,7 +115,7 @@ function [path,IDnums,channel,CHname] = getInfo(path,session,configuration,IDnum
 
     elseif strcmp(session, 'Summer 2020')
         
-        path = strcat(path,'\Arc Measurements Summer 2020\Data\',configuration);
+        path = strcat(path,'\Arc Measurements Summer 2020\',configuration);
         
         IDnums = IDnums./5 + 1;
         

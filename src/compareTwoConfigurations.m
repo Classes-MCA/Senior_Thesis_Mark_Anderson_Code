@@ -25,6 +25,6 @@ function comparison = compareTwoConfigurations(path,session_baseline,configurati
     end
     
     % Putting the angles in reverse order so they plot properly
-    comparison = flip(comparison);
+    %comparison = flip(comparison);
 
 end

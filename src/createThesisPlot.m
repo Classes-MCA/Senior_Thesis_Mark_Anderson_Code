@@ -14,7 +14,7 @@ function createThesisPlot(comparison)
     
     % Formatting the legend
     ax = gca;
-    hleg = legend(ax.Children(1:end));
+    hleg = legend();
     hleg.Title.String = 'Elevation Angle';
     hleg.Title.FontWeight = 'Bold';
     hleg.Location = 'EastOutside';
