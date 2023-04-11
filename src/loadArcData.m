@@ -31,7 +31,7 @@ function [arc_waveforms, arc_spectra] = loadArcData(path,session,configuration,a
     % There are different nuances in the data, so we will take care of that
     % here
     
-    [path,IDnums,channel] = getInfo(path,session,configuration,angles,useBaseline);
+    [path,IDnums,channel,CHname] = getInfo(path,session,configuration,angles,useBaseline);
     
     arc_waveforms = MicArray;
     %arc_waveforms.initializeArray(length(IDnums));
@@ -39,7 +39,7 @@ function [arc_waveforms, arc_spectra] = loadArcData(path,session,configuration,a
     
     for i = 1:length(IDnums)
 
-        waveform = binfileload(path,'ID',IDnums(i),channel);
+        waveform = binfileload(path,'ID',IDnums(i),channel,'CHname',CHname);
 
         arc_waveforms.Microphones(i).Signal = Signal(waveform,fs);
         arc_waveforms.Microphones(i).Signal.Name = strcat(num2str(angles(i))," Degrees");
@@ -71,7 +71,7 @@ function [arc_waveforms, arc_spectra] = loadArcData(path,session,configuration,a
 
 end
 
-function [path,IDnums,channel] = getInfo(path,session,configuration,IDnums,useBaseline)
+function [path,IDnums,channel,CHname] = getInfo(path,session,configuration,IDnums,useBaseline)
 
     if strcmp(session, 'January 2019')
         
@@ -80,6 +80,8 @@ function [path,IDnums,channel] = getInfo(path,session,configuration,IDnums,useBa
         IDnums = IDnums./5 + 1;
         
         channel = -1; % FIXME: Find this
+
+        CHname = [];
         
     elseif strcmp(session, 'Spring 2019')
         
@@ -92,6 +94,8 @@ function [path,IDnums,channel] = getInfo(path,session,configuration,IDnums,useBa
         else
             channel = 0;
         end
+
+        CHname = [];
         
     elseif strcmp(session, 'Fall 2019')
         
@@ -105,6 +109,8 @@ function [path,IDnums,channel] = getInfo(path,session,configuration,IDnums,useBa
             channel = 1;
         end
 
+        CHname = [];
+
     elseif strcmp(session, 'Summer 2020')
         
         path = strcat(path,'\Arc Measurements Summer 2020\Data\',configuration);
@@ -116,10 +122,26 @@ function [path,IDnums,channel] = getInfo(path,session,configuration,IDnums,useBa
         else
             channel = 1;
         end
+
+        CHname = [];
+
+    elseif strcmp(session, 'Spring 2023')
+        
+        path = strcat(path,'\Arc Measurements Spring 2023\',configuration);
+        
+        IDnums = IDnums./5;
+        
+        if useBaseline
+            channel = 0;
+        else
+            channel = 1;
+        end
+
+        CHname = 'CH';
         
     else
         
-        disp('The session input is invalid. It must be "January 2019", "Spring 2019", "Fall 2019", or "Summer 2020"')
+        disp('The session input is invalid. It must be "January 2019", "Spring 2019", "Fall 2019", "Summer 2020", or "Spring 2023')
         
     end
 
